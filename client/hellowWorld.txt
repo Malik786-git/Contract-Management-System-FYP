@@ -1,0 +1,1 @@
+Create your react vite project here 👀
