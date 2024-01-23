@@ -5,6 +5,7 @@ import morgan from "morgan";
 import express from "express";
 import { connectDb } from "./config/connectdb.js";
 import userRouter from "./routes/userRoutes.js";
+import contractRouter from "./routes/contractRoutes.js";
 
 
 dotenv.config();
@@ -23,11 +24,11 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 // //////////////////////////////////////////////
-// authentication api's
-app.use("/api/user/", userRouter);
 app.use("/test", (req, res) => res.send("test ngrok server"));
-
-
+// authentication api's
+app.use("/api/user", userRouter);
+// contract api's
+app.use('/api/contract', contractRouter)
 
 app.listen(port, () => {
   console.log(`Server listening at localhost:${port}`);
