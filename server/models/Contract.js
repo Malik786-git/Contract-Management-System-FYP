@@ -40,10 +40,14 @@ const contractSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['completed', 'incomplete'], 
-        required: true,
         trim: true,
         default: 'incomplete'
     },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+        require: true,
+    }
 });
 
 const contractModel = mongoose.model('Contract', contractSchema);

@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   avatar: { type: String, default: "uploads/user_profile.png" },
   otpCode: { type: Number },
   otpExpire: { type: Date },
+  role: {type: String, enum: ['user', 'admin'], trim: true, default: 'user' }
 });
 
 const userModal = mongoose.model("user", userSchema);

@@ -1,8 +1,16 @@
 import contractModel from "../models/Contract.js";
+import userModal from "../models/User.js";
 
 
 const createContract = async (req, res) => {
     const { project_name, duration, budget, started_date, end_date } = req.body;
+    const { user_id } = req.params;
+    const userExist = await userModal.findById(user_id);
+
+    if (!userExist) {
+        res.status(404).json("User Not Found");
+    }
+
     if (project_name, duration, budget, started_date, end_date) {
         try {
             const createNewContract = new contractModel({
@@ -11,8 +19,8 @@ const createContract = async (req, res) => {
                 budget,
                 started_date,
                 end_date,
+                user_id: userExist._id
             });
-
             const newContract = await createNewContract.save();
             res.status(201).json({ contract: newContract, status: "successful" });
 
@@ -26,20 +34,32 @@ const createContract = async (req, res) => {
 
 const updateContractStatus = async (req, res) => {
     const { status } = req.body;
-    const { contract_id } = req.params;
-    if (status && contract_id) {
+    const { contract_id, user_id } = req.params;
+
+    if (status && contract_id && user_id) {
+        const userExist = await userModal.findById(user_id);
+
+        if (!userExist) {
+            res.status(404).json("User Not Found");
+        }
+
         try {
             const findContract = await contractModel.findById(contract_id);
             if (findContract) {
-                if (['completed', 'incomplete'].includes(status)) {
+                if (findContract.user_id.toString() === userExist._id.toString()) {
+                    if (['completed', 'incomplete'].includes(status)) {
 
-                    findContract.status = status;
-                    const updatedContract = await findContract.save();
-                    res.status(200).json({ contract: updatedContract, status: "successful" });
+                        findContract.status = status;
+                        const updatedContract = await findContract.save();
+                        res.status(200).json({ contract: updatedContract, status: "successful" });
 
+                    } else {
+                        res.status(400).json({ message: "Invalid status" });
+                    }
                 } else {
-                    res.status(400).json({ message: "Invalid status" });
+                    res.status(401).json("Unauthorized Access");
                 }
+
             } else {
                 res.status(400).json({ message: "Invalid id, contract not found" });
             }
@@ -54,56 +74,89 @@ const updateContractStatus = async (req, res) => {
 
 const updateContract = async (req, res) => {
     const { project_name, duration, budget, started_date, end_date } = req.body;
-    const { contract_id } = req.params;
+    const { contract_id, user_id } = req.params;
 
-    if (project_name || duration || budget || started_date || end_date) {
-        try {
-            const findContract = await contractModel.findById(contract_id);
+    if (contract_id && user_id) {
+        const userExist = await userModal.findById(user_id);
 
-            if (findContract) {
-                if (project_name) findContract.project_name = project_name;
-                if (duration) findContract.duration = duration;
-                if (budget) findContract.budget = budget;
-                if (started_date) findContract.started_date = started_date;
-                if (end_date) findContract.end_date = end_date;
+        if (!userExist) {
+            res.status(404).json("User Not Found");
+        }
 
-                const updatedContract = await findContract.save();
+        if (project_name || duration || budget || started_date || end_date) {
+            try {
+                const findContract = await contractModel.findById(contract_id);
 
-                res.status(200).json({ contract: updatedContract, status: "successful" });
-            } else {
-                res.status(404).json({ message: "Contract not found" });
+                if (findContract) {
+                    if (findContract.user_id.toString() === userExist._id.toString()) {
+
+                        if (project_name) findContract.project_name = project_name;
+                        if (duration) findContract.duration = duration;
+                        if (budget) findContract.budget = budget;
+                        if (started_date) findContract.started_date = started_date;
+                        if (end_date) findContract.end_date = end_date;
+
+                        const updatedContract = await findContract.save();
+                        res.status(200).json({ contract: updatedContract, status: "successful" });
+
+                    } else {
+                        res.status(401).json("Unauthorized Access");
+                    }
+                } else {
+                    res.status(404).json({ message: "Contract not found" });
+                }
+            } catch (error) {
+                res.status(500).json({ message: "Internal server error! Try later" });
             }
-        } catch (error) {
-            res.status(500).json({ message: "Internal server error! Try later" });
+        } else {
+            res.status(400).json({ message: "No valid data provided for update" });
         }
     } else {
-        res.status(400).json({ message: "No valid data provided for update" });
+        res.status(400).json({ message: "url params missing, invalid request" });
     }
 };
 
 const deleteContract = async (req, res) => {
-    const { contract_id } = req.params;
-    if (contract_id) {
-        try {
-            const findContract = await contractModel.findByIdAndDelete(contract_id);
-            res.status(200).json({ contract: findContract, message: "Contract deleted successfully", status: "successful" });
-        } catch (error) {
-            res.status(500).json({ message: "Internal server error! Try later" });
+    const { contract_id, user_id } = req.params;
+
+    if (contract_id && user_id) {
+
+        const userExist = await userModal.findById(user_id);
+        if (!userExist) {
+            res.status(404).json("User Not Found");
         }
+
+        if (findContract.user_id.toString() === userExist._id.toString()) {
+            try {
+                const findContract = await contractModel.findByIdAndDelete(contract_id);
+                res.status(200).json({ contract: findContract, message: "Contract deleted successfully", status: "successful" });
+            } catch (error) {
+                res.status(500).json({ message: "Internal server error! Try later" });
+            }
+        } else {
+            res.status(401).json("Unauthorized Access");
+        }
+
     } else {
         res.status(400).json({ message: "url params missing, invalid request" });
     }
 
 };
 
+
 const getAllContracts = async (req, res) => {
     try {
-        const allContracts = await contractModel.find();
+        const allContracts = await contractModel.find().populate({
+            path: "user_id",
+            model: "user",
+            select: "name email avatar",
+        });
         res.status(200).json({ contracts: allContracts, status: "successful" });
     } catch (error) {
         res.status(500).json({ message: "Internal server error! Try later" });
     }
 };
+
 
 const getContractById = async (req, res) => {
     const { contract_id } = req.params;
@@ -121,6 +174,26 @@ const getContractById = async (req, res) => {
 };
 
 
+const getContractsByUserId = async (req, res) => {
+    const { user_id } = req.params;
+    if (user_id) {
+        const ExitsUser = await userModal.findById(user_id);
+
+        if (!ExitsUser) {
+            res.status(404).json("User Not Found");
+        }
+        const contracts = await contractModel.find({ user_id }).populate({
+            path: "user_id",
+            model: "user",
+            select: "name email avatar",
+        });
+        res.status(200).json({ contracts, status: "successful" });
+
+    } else {
+        res.status(400).json({ message: "url params missing, invalid request" });
+    }
+}
+
 export {
     createContract,
     updateContractStatus,
@@ -128,4 +201,5 @@ export {
     deleteContract,
     getAllContracts,
     getContractById,
+    getContractsByUserId,
 };

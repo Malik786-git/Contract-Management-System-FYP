@@ -4,7 +4,6 @@ import FormData from "./Type";
 
 const Add = () => {
   const [records, setRecords] = useState<FormData[]>([]);
-
   const [formData, setFormData] = useState<FormData>({
     id: "",
     duration: "",
