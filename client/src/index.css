@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,19 +13,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+/* form fields */
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+.page-title{
+  font-size: 30px;
+  margin: 20px;
+}
+.auth-input{
+  background: white !important;
+  padding: 3px !important;
+  border-radius: 5px;
+  color: black !important;
+  width: 100% !important;
+  margin: 10px 0px;
+  outline: none;
+}
+.auth-btn{
+  padding: 8px 20px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+}
+.auth-btn:active{
+  transform: scale(0.9);
 }
