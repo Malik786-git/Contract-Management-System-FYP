@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AxiosInstance from "../../axiosConfig";
 import { authUser } from "../redux/userSlice";
-import { useDispatch } from "react-redux";
-import { emailRegex, passwrodRegex } from "../utils/regex-validations";
+import { emailRegex } from "../utils/regex-validations";
+import { useAppDispatch } from "../hooks/redux-hooks";
 function Login() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [authError, setAuthError] = useState("");
@@ -25,7 +25,9 @@ function Login() {
             setLoading(true);
             try {
                 const res = await AxiosInstance.post("/api/user/login", loginFields);
-                if (res.status === 201) {
+                console.log(res.data, 'login data here...');
+                
+                if (res.status === 200) {
                     dispatch(authUser(res.data));
                     navigate("/");
                 }

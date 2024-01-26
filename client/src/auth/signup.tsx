@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { emailRegex, passwrodRegex } from "../utils/regex-validations";
 import AxiosInstance from "../../axiosConfig";
 import { authUser } from "../redux/userSlice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../hooks/redux-hooks";
 function Signup() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState("");
@@ -28,6 +28,8 @@ function Signup() {
         setLoading(true);
         try {
           const res = await AxiosInstance.post("/api/user/register", signupFields);
+          console.log(res.data, 'signup data here...');
+          
           if (res.status === 201) {
             dispatch(authUser(res.data));
             navigate("/");
@@ -62,7 +64,7 @@ function Signup() {
               <input type="text" className='auth-input' name="name" value={signupFields.name} placeholder='Enter Your Name' onChange={onChangeInputs} />
               <input type="email" className='auth-input' name="email" value={signupFields.email} placeholder='Enter Your Email' onChange={onChangeInputs} />
               <input type="password" className='auth-input' name="password" value={signupFields.password} placeholder='Enter Password' onChange={onChangeInputs} />
-              <input type="cpassword" className='auth-input' name="cpassword" value={signupFields.cpassword} placeholder='Confirm Password' onChange={onChangeInputs} />
+              <input type="password" className='auth-input' name="cpassword" value={signupFields.cpassword} placeholder='Confirm Password' onChange={onChangeInputs} />
               <button className="auth-btn bg-primary" disabled={loading} onClick={onSubmit}> {loading ? "loading..." : "Signup"}</button>
               <br />
               <br />

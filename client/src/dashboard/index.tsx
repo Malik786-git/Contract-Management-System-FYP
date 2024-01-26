@@ -1,6 +1,6 @@
 import "../App.css";
 import { FaBars } from "react-icons/fa6";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaPowerOff } from "react-icons/fa6";
 import Stack from "react-bootstrap/Stack";
 import { MdOutlineDashboard } from "react-icons/md";
 import { IoAddCircleOutline } from "react-icons/io5";
@@ -13,12 +13,16 @@ import Add from "../components/Add";
 import Update from "../components/Update";
 import Delete from "../components/Delete";
 import AboutUs from "../components/About";
-
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
+import axiosInstance from '../../axiosConfig';
+import { logout } from "../redux/userSlice";
 
 
 function Dashbaord() {
+  const dispatch= useAppDispatch();
   const [currentView, setCurrentView] = useState("dashboard");
-
+  const auth_user = useAppSelector((state) => state.data)
+  const baseUrl = axiosInstance.defaults.baseURL;
   const renderView = () => {
     switch (currentView) {
       case "dashboard":
@@ -47,8 +51,9 @@ function Dashbaord() {
               <h5 className="m-0">Contract Management System</h5>
             </div>
             <div className="d-flex align-items-center justify-content-between">
-              <p className="m-0">logged in as user</p>
-              <FaRegUserCircle />
+              <span onClick={()=>dispatch(logout())} title="Logout" style={{cursor: 'pointer'}} className="me-2"><FaPowerOff /></span>
+              <p className="m-0">{auth_user?.user?.name}</p>
+              <img src={`${baseUrl}/${auth_user?.user?.avatar}`} alt="user" width={50} />
             </div>
           </div>
         </div>
