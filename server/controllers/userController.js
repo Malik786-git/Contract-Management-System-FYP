@@ -226,9 +226,47 @@ const resendOtp = async (req, res) => {
         .json({ status: "failed", message: "Email does not exist" });
     }
   } else {
-    res.status(500).json({ status: "failed", message: "Email is required" });
+    res.status(400).json({ status: "failed", message: "Email is required" });
   }
 };
+
+
+const blockUser = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const existsUser = await userModal.findById(user_id);
+    if (!existsUser) {
+      return res.status(404).json({ status: "failed", message: "User not found" });
+    }
+
+    existsUser.status = "blocked";
+    const blockedUser = await existsUser.save();
+    res.status(200).json({ blockedUser, message: "User blocked successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "failed", message: "Internal server error" });
+  }
+};
+
+
+
+const enableUser = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const existsUser = await userModal.findById(user_id);
+    if (!existsUser) {
+      return res.status(404).json({ status: "failed", message: "User not found" });
+    }
+
+    existsUser.status = "active";
+    const blockedUser = await existsUser.save();
+    res.status(200).json({ blockedUser, message: "User active successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "failed", message: "Internal server error" });
+  }
+}
+
 
 export {
   userRegistration,
@@ -237,4 +275,6 @@ export {
   userPasswordReset,
   verifyOtp,
   resendOtp,
+  blockUser,
+  enableUser
 };

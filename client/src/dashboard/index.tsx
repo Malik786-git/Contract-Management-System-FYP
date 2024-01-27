@@ -39,6 +39,7 @@ function Dashbaord() {
         return null;
     }
   };
+
   return (
     <>
       <h1 className="mb-4 heading">Contract Management System</h1>
