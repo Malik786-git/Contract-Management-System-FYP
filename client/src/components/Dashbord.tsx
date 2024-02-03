@@ -1,40 +1,65 @@
 import React, { useState, useEffect } from "react";
-import FormData from "./Type";
-import { BiSearch } from "react-icons/bi";
+import AxiosInstance from "../../axiosConfig";
+
+interface Contract {
+  project_name: string;
+  duration: string;
+  budget: number;
+  started_date: string; 
+  end_date: string; 
+}
 
 const Dashboard: React.FC = () => {
-  const [records, setRecords] = useState<FormData[]>([]);
+  const [contracts, setContracts] = useState<Contract[]>([]);
 
   useEffect(() => {
-    const storedRecords = JSON.parse(
-      localStorage.getItem("AddItems") || "[]"
-    ) as FormData[];
-    setRecords(storedRecords);
+    const fetchData = async () => {
+      try {
+        const res = await AxiosInstance.get('/api/contract/all-contracts');
+        setContracts(res.data.contracts);
+      } catch (error: any) {
+        console.error(error.response?.data?.message);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
-    <div>
-      <div className="dashboard">
-        <h3>Contracts</h3>
-        <div className="input-search">
-          <div>
-            <input placeholder="Search" />
-          </div>
-
-          <div className="input-search-icon">
-            <BiSearch />
-          </div>
+    <div className="container">
+    <div className="row">
+      <div className="col-10 mx-auto">
+        <div className="contract_table">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Project Name</th>
+              <th>Duration</th>
+              <th>Budget</th>
+              <th>Starting - Ending</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contracts?.map((contract, index) => (
+              <tr key={index}>
+                <td className="mx-2" style={{width: "200px"}}>{index + 1}</td>
+                <td className="mx-2" style={{width: "200px"}}>{contract.project_name}</td>
+                <td className="mx-2" style={{width: "200px"}}>{contract.duration}</td>
+                <td className="mx-2" style={{width: "200px"}}>{contract.budget}</td>
+                <td className="mx-2" style={{width: "200px"}}>{contract.started_date?.split("T")?.[0]}</td>
+                <td className="mx-2" style={{width: "200px"}}>{contract.end_date?.split("T")?.[0]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         </div>
       </div>
-      <ul className="dashboard-list">
-        {records.map((record, index) => (
-          <li key={index}>
-            ID: {record.id}, Duration: {record.duration}, Project Name:{" "}
-            {record.projectName}{" "}
-          </li>
-        ))}
-      </ul>
     </div>
+  </div>
+  
+  
   );
 };
 

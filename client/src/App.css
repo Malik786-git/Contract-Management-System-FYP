@@ -96,3 +96,13 @@
 }
 
 
+.main-content{
+  width: 500px; 
+}
+
+.contract_table {
+  min-width: 700px;
+}
+.contract_table table thead{
+   background: lightblue;
+}

@@ -84,14 +84,6 @@ function Dashbaord() {
           </div>
           <div className="p-2">
             <div className="main-content">{renderView()}</div>
-
-            {/* <div>
-              <p className="m-0 text-danger">Contracts</p>
-              <div>
-                <input type="text" placeholder="Search..." />
-                <IoMdSearch />
-              </div>
-            </div> */}
           </div>
         </Stack>
       </div>
