@@ -46,7 +46,7 @@ const updateContractStatus = async (req, res) => {
         try {
             const findContract = await contractModel.findById(contract_id);
             if (findContract) {
-                if (findContract.user_id.toString() === userExist._id.toString()) {
+                if ((findContract.user_id.toString() === userExist._id.toString()) || userExist.role === "admin") {
                     if (['completed', 'incomplete'].includes(status)) {
 
                         findContract.status = status;
@@ -88,7 +88,7 @@ const updateContract = async (req, res) => {
                 const findContract = await contractModel.findById(contract_id);
 
                 if (findContract) {
-                    if (findContract.user_id.toString() === userExist._id.toString()) {
+                    if ((findContract.user_id.toString() === userExist._id.toString()) || userExist.role === "admin") {
 
                         if (project_name) findContract.project_name = project_name;
                         if (duration) findContract.duration = duration;
@@ -126,7 +126,7 @@ const deleteContract = async (req, res) => {
             res.status(404).json("User Not Found");
         }
 
-        if (findContract.user_id.toString() === userExist._id.toString()) {
+        if ((findContract.user_id.toString() === userExist._id.toString()) || userExist.role === "admin") {
             try {
                 const findContract = await contractModel.findByIdAndDelete(contract_id);
                 res.status(200).json({ contract: findContract, message: "Contract deleted successfully", status: "successful" });
