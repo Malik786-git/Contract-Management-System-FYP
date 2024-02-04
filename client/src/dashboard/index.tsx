@@ -19,7 +19,7 @@ import { logout } from "../redux/userSlice";
 
 
 function Dashbaord() {
-  const dispatch= useAppDispatch();
+  const dispatch = useAppDispatch();
   const [currentView, setCurrentView] = useState("dashboard");
   const auth_user = useAppSelector((state) => state.data)
   const baseUrl = axiosInstance.defaults.baseURL;
@@ -52,13 +52,13 @@ function Dashbaord() {
               <h5 className="m-0">Contract Management System</h5>
             </div>
             <div className="d-flex align-items-center justify-content-between">
-              <span onClick={()=>dispatch(logout())} title="Logout" style={{cursor: 'pointer'}} className="me-2"><FaPowerOff /></span>
+              <span onClick={() => dispatch(logout())} title="Logout" style={{ cursor: 'pointer' }} className="me-2"><FaPowerOff /></span>
               <p className="m-0">{auth_user?.user?.name}</p>
-              <img src={`${baseUrl}/${auth_user?.user?.avatar}`} alt="user" width={50} />
+              <img src={`${baseUrl}/${auth_user?.user?.avatar}`}  alt="user" width={50} />
             </div>
           </div>
         </div>
-        <Stack direction="horizontal" gap={4} className="align-items-start">
+        <Stack direction="horizontal" gap={4} className="align-items-start stack_container">
           <div className="p-2 side-bar-menu">
             <ul className="p-0">
               <li onClick={() => setCurrentView("dashboard")}>
@@ -82,8 +82,16 @@ function Dashbaord() {
               </li>
             </ul>
           </div>
-          <div className="p-2">
+          <div className="p-2 dashboard-menu">
             <div className="main-content">{renderView()}</div>
+
+            {/* <div>
+              <p className="m-0 text-danger">Contracts</p>
+              <div>
+                <input type="text" placeholder="Search..." />
+                <IoMdSearch />
+              </div>
+            </div> */}
           </div>
         </Stack>
       </div>
