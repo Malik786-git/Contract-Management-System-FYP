@@ -66,8 +66,8 @@ return (
               <td>{moment(item.started_date).format('DD-MM-YYYY')}</td>
               <td>{moment(item.end_date).format('DD-MM-YYYY')}</td>
               <td>{item.user_id.name}</td>
-          </tr>
-        ))}  
+          </tr> 
+        ))}   
         </tbody>
       </Table>
       
