@@ -1,9 +1,0 @@
-PORT = 8000
-DATABASE_URL = "mongodb+srv://duetchatbot:8881212chatbot@cluster0.jjwqrb3.mongodb.net/"
-JWT_SECRET_KEY = "MYJWTKEYWITHALIWARISID786"
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_USER = 'duetaichatbot@gmail.com'
-EMAIL_PASS = 'heqbqfetkkwdxgbk'
-EMAIL_FROM = 'duetaichatbot@gmail.com'
-
