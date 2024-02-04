@@ -12,10 +12,6 @@ const Dashboard: React.FC = () => {
   console.log("role", role)
 
   useEffect(() => {
-    // const storedRecords = JSON.parse(
-    //   localStorage.getItem("AddItems") || "[]"
-    // ) as FormData[];
-    // setRecords(storedRecords);
     getContracts();
   }, []);
   const getContracts = async () => {
