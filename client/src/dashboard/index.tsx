@@ -54,7 +54,7 @@ function Dashbaord() {
             <div className="d-flex align-items-center justify-content-between">
               <span onClick={() => dispatch(logout())} title="Logout" style={{ cursor: 'pointer' }} className="me-2"><FaPowerOff /></span>
               <p className="m-0">{auth_user?.user?.name}</p>
-              <img src={`${baseUrl}/${auth_user?.user?.avatar}`} alt="user" width={50} />
+              <img src={`${baseUrl}/${auth_user?.user?.avatar}`}  alt="user" width={50} />
             </div>
           </div>
         </div>
