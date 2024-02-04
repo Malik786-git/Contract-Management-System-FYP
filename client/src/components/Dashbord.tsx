@@ -5,7 +5,6 @@ import instance from "../../axiosConfig";
 import { useAppSelector } from "../hooks/redux-hooks";
 import { Table } from "react-bootstrap";
 import moment from "moment";
-
 const Dashboard: React.FC = () => {
   const [records, setRecords] = useState<FormData[]>([]);
 

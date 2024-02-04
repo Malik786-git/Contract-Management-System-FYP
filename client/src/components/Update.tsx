@@ -18,7 +18,7 @@ const Update: React.FC = () => {
         {records.map((record, index) => (
           <li key={index}>
             ID: {record.id}, Duration: {record.duration}, Project Name:{" "}
-            {record.projectName}{" "}
+            {/* {record.projectName}{" "} */}
           </li>
         ))}
       </ul>
