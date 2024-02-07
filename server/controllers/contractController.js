@@ -126,16 +126,13 @@ const deleteContract = async (req, res) => {
             res.status(404).json("User Not Found");
         }
 
-        if ((findContract.user_id.toString() === userExist._id.toString()) || userExist.role === "admin") {
-            try {
-                const findContract = await contractModel.findByIdAndDelete(contract_id);
-                res.status(200).json({ contract: findContract, message: "Contract deleted successfully", status: "successful" });
-            } catch (error) {
-                res.status(500).json({ message: "Internal server error! Try later" });
-            }
-        } else {
-            res.status(401).json("Unauthorized Access");
+        try {
+            const findContract = await contractModel.findByIdAndDelete(contract_id);
+            res.status(200).json({ contract: findContract, message: "Contract deleted successfully", status: "successful" });
+        } catch (error) {
+            res.status(500).json({ message: "Internal server error! Try later" });
         }
+
 
     } else {
         res.status(400).json({ message: "url params missing, invalid request" });

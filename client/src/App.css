@@ -3,38 +3,47 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 #root {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
+
 .heading {
   font-weight: bold;
 }
+
 .dashboard-box {
   border: 2px solid black;
   width: 100%;
   padding: 10px 30px;
   border-radius: 5px;
 }
-.stack_container{
+
+.stack_container {
   width: inherit;
   /* border: 3px solid red; */
 }
-.dashboard_container{
-  width:inherit !important;
+
+.dashboard_container {
+  width: inherit !important;
 }
-.side-bar-menu{
+
+.side-bar-menu {
   width: 20%;
 }
-.dashboard-menu{
+
+.dashboard-menu {
   width: 80%;
 }
+
 .dashboard {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .input-search {
   /* border: 2px solid red; */
   width: 240px;
@@ -44,6 +53,7 @@
   background-color: black;
   color: white;
 }
+
 .input-search input {
   border: none;
   margin-right: 20px;
@@ -53,6 +63,7 @@
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
+
 .dashboard-list {
   margin-top: 40px;
   text-align: left;
@@ -62,44 +73,54 @@
   /* color: white; */
   padding: 0px 20px 20px 20px;
 }
+
 .management-box {
   padding: 20px;
 }
+
 .management-box svg {
   font-size: 20px;
   font-weight: bold;
 }
+
 .management-box h5 {
   padding-left: 10px;
   color: #5b9bd5;
   font-weight: bold;
   font-size: 30px;
 }
+
 .management-box p {
   padding-right: 10px;
   font-weight: bold;
   font-size: 18px;
 }
+
 .dashboard-list li {
   padding-top: 20px;
   list-style: none;
 }
+
 .side-bar-menu ul li {
   border: 2px solid black;
   list-style: none;
   padding: 30px;
   cursor: pointer;
 }
+
 .side-bar-menu ul li svg {
   font-size: 20px;
 }
-.dashboard_table{
- width: 100%;
+
+.dashboard_table {
+  width: 100%;
 }
-.delete_icon{
+
+.delete_icon {
   color: red;
   cursor: pointer;
 }
+
 /* Add */
 .container-box {
   /* border: 2px solid black; */
@@ -107,10 +128,65 @@
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
 .input-field {
   width: 45%;
   justify-content: space-between;
 }
+
 .input-field input {
   width: 100%;
+}
+
+/* Modal */
+
+.modal {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.update_form {
+  padding: 20px;
+  width: 50%;
+  background-color: white;
+  border-radius: 20px;
+  min-height: 500px;
+  position: relative;
+
+}
+
+.update_form .close {
+  position: absolute;
+  top: 8px;
+  right: 20px;
+  color: black;
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: bolder;
+}
+
+@media screen and (max-width: 1200px) {
+  .update_form {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .update_form {
+    width: 75%;
+    padding: 15px;
+
+  }
+}
+
+@media screen and (max-width:600px) {
+  .update_form {
+    width: 90%;
+    padding: 10px;
+
+  }
 }

@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
+
 export interface AuthState {
   isLoggin: boolean;
   data: object | null | any;

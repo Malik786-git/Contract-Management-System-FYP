@@ -5,48 +5,50 @@ import instance from "../../axiosConfig";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { Table } from "react-bootstrap";
 import moment from "moment";
-// import { useDispatch } from "react-redux";
-import { addContract } from "../redux/contractSlice";
+import { setAllContracts } from "../redux/contractSlice";
+
+
 const Dashboard: React.FC = () => {
+  const [search, setSearch] = useState<string>("");
   const [records, setRecords] = useState<FormData[]>([]);
   const dispatch = useAppDispatch();
-  const {role, _id} = useAppSelector((state) => state?.userAuth?.data?.user);
-  console.log("role", role)
-  
+  const { role, _id } = useAppSelector((state) => state?.userAuth?.data?.user);
+
   useEffect(() => {
     getContracts();
   }, []);
   const getContracts = async () => {
     try {
-        const route = (role == "admin") ? "api/contract/all-contracts" : `/api/contract/user-contracts/${_id}`;
-        const response = await instance.get(route)
-        console.log("response", response.data.contracts)
-        setRecords(response?.data?.contracts)
-        dispatch(addContract(response?.data?.contracts));
-      } catch (error) {
+      const route = (role == "admin") ? "api/contract/all-contracts" : `/api/contract/user-contracts/${_id}`;
+      const response = await instance.get(route)
+      console.log("response", response.data.contracts)
+      setRecords(response?.data?.contracts)
+      dispatch(setAllContracts(response?.data?.contracts));
+    } catch (error: any) {
+      console.error(error.message);
 
-}
     }
-return (
-  <div className="dashboard_container ">
-    <div className="dashboard">
-      <h3>Contracts</h3>
-      <div className="input-search">
-        <div>
-          <input placeholder="Search" />
-        </div>
+  }
+  return (
+    <div className="dashboard_container ">
+      <div className="dashboard">
+        <h3>Contracts</h3>
+        <div className="input-search">
+          <div>
+            <input placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
+          </div>
 
-        <div className="input-search-icon">
-          <BiSearch />
+          <div className="input-search-icon">
+            <BiSearch />
+          </div>
         </div>
       </div>
-    </div>
-    <Table className="dashboard_table mt-3">
+      <Table className="dashboard_table mt-3">
         <thead>
           <tr>
             <th>#</th>
-            <th>Duration</th>
             <th>Project Name</th>
+            <th>Duration</th>
             <th>Budget</th>
             <th>Status</th>
             <th>Start Date</th>
@@ -55,23 +57,24 @@ return (
           </tr>
         </thead>
         <tbody>
-        {records.map((item,index)=>(
-          <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{item.duration}</td>
-              <td>{item.project_name}</td>
-              <td>{item.budget}</td>
-              <td style={{color: (item.status == "incomplete")? "red":"green"}}>{item.status}</td>
-              <td>{moment(item.started_date).format('DD-MM-YYYY')}</td>
-              <td>{moment(item.end_date).format('DD-MM-YYYY')}</td>
-              <td>{item.user_id.name}</td>
-          </tr> 
-        ))}   
+          {records.filter(item => item?.project_name?.toLocaleLowerCase()?.includes(search?.toLocaleLowerCase()))
+            .map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item.project_name}</td>
+                <td>{item.duration}</td>
+                <td>{item.budget}</td>
+                <td style={{ color: (item.status == "incomplete") ? "red" : "green" }}>{item.status}</td>
+                <td>{moment(item.started_date).format('DD-MM-YYYY')}</td>
+                <td>{moment(item.end_date).format('DD-MM-YYYY')}</td>
+                <td>{item.user_id.name}</td>
+              </tr>
+            ))}
         </tbody>
       </Table>
-      
-  </div>
-);
+
+    </div>
+  );
 };
 
 export default Dashboard;

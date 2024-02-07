@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import AxiosInstance from "../../axiosConfig";
-import { useAppSelector } from "../hooks/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
+import { addNewContract } from "../redux/contractSlice";
 
 const Add = () => {
-  const auth_user = useAppSelector((state) => state.data);
+  const auth_user = useAppSelector((state) => state?.userAuth?.data);
+  const dispatch = useAppDispatch();
   const [DurationSelector, setDurationSelector] = useState("M");
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState("");
@@ -36,7 +38,9 @@ const Add = () => {
                 started_date: formData.started_date,
                 end_date: formData.end_date,
               });
+              
               if (res.status === 201) {
+                dispatch(addNewContract(res.data.contract))
                 alert("Contract Created Successfully!")
               }
               setLoading(false);
