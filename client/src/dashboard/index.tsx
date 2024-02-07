@@ -21,7 +21,7 @@ import { logout } from "../redux/userSlice";
 function Dashbaord() {
   const dispatch = useAppDispatch();
   const [currentView, setCurrentView] = useState("dashboard");
-  const auth_user = useAppSelector((state) => state.data)
+  const auth_user = useAppSelector((state) => state.userAuth.data)
   const baseUrl = axiosInstance.defaults.baseURL;
   const renderView = () => {
     switch (currentView) {

@@ -4,7 +4,7 @@ import { useAppSelector } from "./hooks/redux-hooks";
 
 function App() {
 
-  const {isLoggin}= useAppSelector((state) => state)
+  const {isLoggin}= useAppSelector((state) => state.userAuth)
 
 
   return (

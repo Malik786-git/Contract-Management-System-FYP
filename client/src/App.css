@@ -96,6 +96,10 @@
 .dashboard_table{
  width: 100%;
 }
+.delete_icon{
+  color: red;
+  cursor: pointer;
+}
 /* Add */
 .container-box {
   /* border: 2px solid black; */

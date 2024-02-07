@@ -17,7 +17,7 @@ function Login() {
     const onChangeInputs = (e: any) => {
         setLoginFields({ ...loginFields, [e.target.name]: e.target.value });
     }
-
+// AbCdEfG123
     const onSubmit = async (e: any) => {
         e.preventDefault();
         setAuthError("");
@@ -29,7 +29,7 @@ function Login() {
                 
                 if (res.status === 200) {
                     dispatch(authUser(res.data));
-                    navigate("/");
+                    navigate("/dashboard");
                 }
                 setLoading(false);
             } catch (error: any) {
