@@ -42,14 +42,14 @@ const Delete: React.FC = () => {
           {data && data.map((item: any, index: any) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td>{item.project_name}</td>
-              <td>{item.duration}</td>
-              <td>{item.budget}</td>
-              <td style={{ color: (item.status == "incomplete") ? "red" : "green" }}>{item.status}</td>
-              <td>{moment(item.started_date).format('DD-MM-YYYY')}</td>
-              <td>{moment(item.end_date).format('DD-MM-YYYY')}</td>
-              <td>{item.user_id.name}</td>
-              <td><RiDeleteBin6Line onClick={() => onDeleteContract(item._id)} className="delete_icon" /></td>
+              <td>{item?.project_name}</td>
+              <td>{item?.duration}</td>
+              <td>{item?.budget}</td>
+              <td style={{ color: (item?.status == "incomplete") ? "red" : "green" }}>{item?.status}</td>
+              <td>{moment(item?.started_date).format('DD-MM-YYYY')}</td>
+              <td>{moment(item?.end_date).format('DD-MM-YYYY')}</td>
+              <td>{item?.user_id?.name}</td>
+              <td><RiDeleteBin6Line onClick={() => onDeleteContract(item?._id)} className="delete_icon" /></td>
             </tr>
           ))}
         </tbody>

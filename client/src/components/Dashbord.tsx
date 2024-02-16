@@ -57,17 +57,17 @@ const Dashboard: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {records.filter(item => item?.project_name?.toLocaleLowerCase()?.includes(search?.toLocaleLowerCase()))
-            .map((item, index) => (
+          {records && records?.filter(item => item?.project_name?.toLocaleLowerCase()?.includes(search?.toLocaleLowerCase()))
+            ?.map((item, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{item.project_name}</td>
-                <td>{item.duration}</td>
-                <td>{item.budget}</td>
-                <td style={{ color: (item.status == "incomplete") ? "red" : "green" }}>{item.status}</td>
-                <td>{moment(item.started_date).format('DD-MM-YYYY')}</td>
-                <td>{moment(item.end_date).format('DD-MM-YYYY')}</td>
-                <td>{item.user_id.name}</td>
+                <td>{item?.project_name}</td>
+                <td>{item?.duration}</td>
+                <td>{item?.budget}</td>
+                <td style={{ color: (item?.status == "incomplete") ? "red" : "green" }}>{item?.status}</td>
+                <td>{moment(item?.started_date).format('DD-MM-YYYY')}</td>
+                <td>{moment(item?.end_date).format('DD-MM-YYYY')}</td>
+                <td>{item?.user_id?.name}</td>
               </tr>
             ))}
         </tbody>

@@ -56,21 +56,21 @@ const Update: React.FC = () => {
         {data && data.map((item: any, index: any) => (
           <tr key={index}>
             <td>{index + 1}</td>
-            <td>{item.project_name}</td>
-            <td>{item.duration}</td>
-            <td>{item.budget}</td>
+            <td>{item?.project_name}</td>
+            <td>{item?.duration}</td>
+            <td>{item?.budget}</td>
             <td><span 
              style={{ color: "white",
                       padding: "2px 5px",
                       borderRadius: 5,
-                      background:(item.status == "incomplete") ? "red" : "green", 
+                      background:(item?.status == "incomplete") ? "red" : "green", 
                       cursor:"pointer"
                     }}
                     onClick={()=>onUpdateContractStatus(item?.status, item?._id)} 
-            >{item.status}</span></td>
-            <td>{moment(item.started_date).format('DD-MM-YYYY')}</td>
-            <td>{moment(item.end_date).format('DD-MM-YYYY')}</td>
-            <td>{item.user_id.name}</td>
+            >{item?.status}</span></td>
+            <td>{moment(item?.started_date).format('DD-MM-YYYY')}</td>
+            <td>{moment(item?.end_date).format('DD-MM-YYYY')}</td>
+            <td>{item?.user_id?.name}</td>
             <td><FaRegEdit  onClick={() => onUpdateContract(item)} className="delete_icon" /></td>
           </tr>
         ))}
